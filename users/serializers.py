@@ -7,6 +7,10 @@ User = get_user_model()
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    """
+    Serializer to handle creation of User instance
+    """
+
     class Meta:
         model = User
         fields = ["username", "email", "password"]
