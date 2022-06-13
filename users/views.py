@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model, logout
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import *
 from rest_framework.views import APIView
 
-from .serializers import UserCreateSerializer
+from .serializers import UserCreateSerializer, UserSerializer
 
 User = get_user_model()
 
@@ -45,3 +45,14 @@ class DeleteUser(APIView):
         instance = request.user
         instance.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+class RetrieveUser(RetrieveAPIView):
+    """
+    Concrete view to retrieve a User instance
+    """
+
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user

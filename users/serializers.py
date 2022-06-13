@@ -30,3 +30,18 @@ class UserCreateSerializer(serializers.ModelSerializer):
         validate_password(attrs["password"])
 
         return super().validate(attrs)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer to retrieve and update User information
+    including data from related Profile instance.
+    """
+
+    phone = serializers.CharField(source="profile.phone", required=False)
+    avatar = serializers.ImageField(source="profile.avatar", required=False)
+    full_name = serializers.CharField(source="get_full_name", required=False)
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "full_name", "phone", "avatar"]
