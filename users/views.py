@@ -29,6 +29,6 @@ class CreateUser(CreateAPIView):
 
         # Send token of the new user in response along with other data
         user_data = dict(serializer.data)
-        token = Token.objects.get_or_create(user__username=user_data["username"]).key
+        token = Token.objects.get(user__username=user_data["username"]).key
         user_data["token"] = token
         return Response(user_data, HTTP_201_CREATED)
