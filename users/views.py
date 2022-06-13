@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model, logout
-from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import *
@@ -50,6 +50,18 @@ class DeleteUser(APIView):
 class RetrieveUser(RetrieveAPIView):
     """
     Concrete view to retrieve a User instance
+    """
+
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
+class UpdateUser(UpdateAPIView):
+    """
+    Concrete view to update a User instance
+    including related Profile instance
     """
 
     serializer_class = UserSerializer
