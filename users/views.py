@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model, logout
-from rest_framework.generics import CreateAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import *
@@ -36,12 +36,12 @@ class LogoutUser(APIView):
         return Response(message, HTTP_200_OK)
 
 
-class DeleteUser(DestroyAPIView):
+class DeleteUser(APIView):
     """
     Concrete view to delete an existing User instance
     """
 
-    def destroy(self, request, *args, **kwargs):
+    def delete(self, request):
         instance = request.user
-        self.perform_destroy(instance)
+        instance.delete()
         return Response(status=HTTP_204_NO_CONTENT)
