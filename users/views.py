@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.status import *
 from rest_framework.views import APIView
 
-from .serializers import UserCreateSerializer, UserSerializer
+from .serializers import UpdatePasswordSerializer, UserCreateSerializer, UserSerializer
 
 User = get_user_model()
 
@@ -68,3 +68,19 @@ class UpdateUser(UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+class UpdatePassword(UpdateAPIView):
+    """
+    Concrete view to update the password of a User instance
+    """
+
+    serializer_class = UpdatePasswordSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.request.user
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        msg = {"success": "password updated"}
+        return Response(msg, HTTP_200_OK)
