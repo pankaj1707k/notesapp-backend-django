@@ -21,6 +21,7 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),
+    path("api/notes/", include("notes.urls")),
 ]
 
 # Handle static files in development phase (DEBUG = True)
