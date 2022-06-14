@@ -21,6 +21,13 @@ class Notebook(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "user"], name="unique_name_per_user"
+            )
+        ]
+
 
 class Note(models.Model):
     """
