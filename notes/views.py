@@ -1,4 +1,8 @@
-from rest_framework.generics import DestroyAPIView, ListCreateAPIView
+from rest_framework.generics import (
+    DestroyAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework.response import Response
 from rest_framework.status import *
 
@@ -56,3 +60,14 @@ class ListCreateNote(ListCreateAPIView):
             msg = {"detail": "notebook id mismatch in url and request body"}
             return Response(msg, HTTP_400_BAD_REQUEST)
         return self.create(request, *args, **kwargs)
+
+
+class GetUpdateDeleteNote(RetrieveUpdateDestroyAPIView):
+    """
+    View to perform get, update and delete operations on a single Note instance
+    """
+
+    serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        return Note.objects.filter(notebook__user=self.request.user)
