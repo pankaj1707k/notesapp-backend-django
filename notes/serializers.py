@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Notebook
+from .models import Note, Notebook
 
 
 class NotebookSerializer(serializers.ModelSerializer):
@@ -21,3 +21,13 @@ class NotebookSerializer(serializers.ModelSerializer):
             msg = {"uniqueness failed": "name per user must be unique"}
             raise serializers.ValidationError(detail=msg, code=400)
         return attrs
+
+
+class NoteSerializer(serializers.ModelSerializer):
+    """
+    Serializer to handle Note instances
+    """
+
+    class Meta:
+        model = Note
+        fields = "__all__"
