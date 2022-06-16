@@ -33,6 +33,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
         return super().validate(attrs)
 
+    def create(self, validated_data):
+        instance = User.objects.create(
+            username=validated_data["username"], email=validated_data["email"]
+        )
+        instance.set_password(validated_data["password"])
+        instance.save()
+        return instance
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     """
